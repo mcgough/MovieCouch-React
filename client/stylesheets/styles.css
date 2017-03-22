@@ -1,0 +1,111 @@
+.no-scroll {
+	overflow: hidden;
+}
+
+.flex {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	    justify-content: space-between;
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+}
+
+.align-center {
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: rgba(0,0,0,.85);
+	z-index: 1;
+	visibility: hidden;
+	opacity: 0;
+}
+.modal-overlay.open {
+	visibility: visible;
+	opacity: 1;
+}
+
+.close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 30px;
+	height: 30px;
+}
+.close:hover {
+	cursor: pointer;
+}
+.close span {
+	position: absolute;
+	top: 15px;
+	display: block;
+	width: 100%;
+	height: 4px;
+	background: #fff;
+	margin-bottom: 5px;
+	-webkit-transition: all .3s;
+		transition: all .3s;
+}
+.close:hover span {
+	background: #666;
+}
+.close .first {
+	transform: rotate(135deg);
+}
+.close .second {
+	transform: rotate(-135deg);
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: rgba(0,0,0,.3);
+	-webkit-transition: all .3s;
+	transition: all .3s;
+}
+
+.search-form {
+	margin-bottom: 2.5%;
+}
+
+.search-results {
+	margin: auto;
+	max-width: 97.5%;
+}
+
+.search-result {
+	position: relative;
+}
+
+.search-result:hover {
+	cursor: pointer;
+	background: rgba(0,0,0,0);
+}
+
+.selected-movie {
+	position: relative;
+	width: 60%;
+	margin: auto;
+}
+.selected-movie-details {
+	width: 50%;
+	background: #fff;
+	padding: 15px;
+}
+
