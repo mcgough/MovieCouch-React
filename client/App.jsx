@@ -5,7 +5,8 @@ import TitleBlock from './components/TitleBlock.jsx';
 import SearchForm from './components/SearchForm.jsx';
 import SearchResults from './components/SearchResults.jsx';
 import SelectedResult from './components/SelectedResult.jsx';
-import Modal from './components/Modal.jsx';
+import Modal from './components/common/Modal.jsx';
+import SearchTerms from './components/sidebar/SearchTerms.jsx';
 
 export default class App extends React.Component {
 
@@ -14,14 +15,23 @@ export default class App extends React.Component {
 		this.state = {
 			searchResults: [],
 			selected: {},
-			selectedSrc: ''
+			selectedSrc: '',
+			pastFive: null,
+			loading: false
 		};
 		this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
 		this.handleResultClick = this.handleResultClick.bind(this);
 	}
 
 	componentWillMount() {
-		//___MAYBE ADD SOME FUNCTIONALITY HERE e.g. prev searches or selected movies
+		if (utils.storageCheck()) {
+			const pastFive = JSON.parse(window.localStorage.getItem('pastFive'));
+			setTimeout(() => {
+				this.setState({
+					pastFive: pastFive
+				});
+			});
+		}
 	}
 
 	handleSearchSubmit(e) {
@@ -34,8 +44,13 @@ export default class App extends React.Component {
 				searchResults: results,
 				selected: {}
 			});
-			if ( results.length > 0 && typeof(Storage) !== undefined) {
-				window.localStorage.setItem('prevSearch',searchTerm);
+			if (utils.storageCheck() && results.length > 0) {
+				const arr = this.state.pastFive,
+							newArr = utils.setSearchTerms(searchTerm, arr);
+				window.localStorage.setItem('pastFive', newArr);
+				this.setState({
+					pastFive: JSON.parse(newArr)
+				});
 			}
 		});
 	}
@@ -43,7 +58,8 @@ export default class App extends React.Component {
 	handleResultClick(id,src) {
 		this.setState({
 			selected: {},
-			selectedSrc: src
+			selectedSrc: src,
+			loading: !this.state.loading
 		});
 		$('body').addClass('no-scroll');
 		$('.modal-overlay').addClass('open');
@@ -51,6 +67,7 @@ export default class App extends React.Component {
 		.then((response) => {
 			const data = response.data;
 			this.setState({
+				loading: !this.state.loading,
 				selected: data
 			});
 		});
@@ -59,11 +76,12 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className={'wrapper'}>
+				<SearchTerms searchTerms={this.state.pastFive} />
 				<TitleBlock copy="Where are you sitting tonight?" title="MovieCouch" />
 				<SearchForm onSubmit={this.handleSearchSubmit} />
 				<SearchResults results={this.state.searchResults} onClick={this.handleResultClick} />
 				<Modal>
-					<SelectedResult content={this.state.selected} src={this.state.selectedSrc} />
+					<SelectedResult loading={this.state.loading} content={this.state.selected} src={this.state.selectedSrc} />
 				</Modal>
 			</div>
 		)
