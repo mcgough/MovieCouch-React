@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from './common/Loading.jsx';
+import HeartSVG from './common/HeartSVG.jsx';
 import utils from './../utils/utils.js';
 import _ from 'lodash';
 
@@ -12,6 +13,7 @@ function SelectedResult(props) {
 					<img src={props.src} />
 				</div>
 				<div className={'selected-movie-details'}>
+					<HeartSVG liked={props.content.liked} title={props.content.Title} onHeartClick={props.onHeartClick} />
 					<h3>{props.content.Title}</h3>
 					<p>{utils.checkContent(props.content.Year)}</p>
 					<p>{utils.checkContent(props.content.Genre)}</p>
