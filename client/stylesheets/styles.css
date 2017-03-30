@@ -172,5 +172,13 @@
 	top: 250px;
 	border-top: none;
 }
+.favorite-title {
+	cursor: pointer;
+	-webkit-transition: all .35s;
+	transition: all .35s;
+}
+.favorite-title:hover {
+	text-decoration: underline;
+}
 
 

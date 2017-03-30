@@ -47,6 +47,10 @@ const utils = {
 	},
 	storageCheck: () => {
 		return typeof(Storage) !== undefined;
+	},
+	openModal: () => {
+		$('body').addClass('no-scroll');
+		$('.modal-overlay').addClass('open');
 	}
 };
 

@@ -24,6 +24,7 @@ export default class App extends React.Component {
 		this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
 		this.handleResultClick = this.handleResultClick.bind(this);
 		this.handleSelectedLiked = this.handleSelectedLiked.bind(this);
+		this.handleFavoriteClicked = this.handleFavoriteClicked.bind(this);
 	}
 
 	componentWillMount() {
@@ -66,13 +67,12 @@ export default class App extends React.Component {
 			selectedSrc: src,
 			loading: !this.state.loading
 		});
-		$('body').addClass('no-scroll');
-		$('.modal-overlay').addClass('open');
+		utils.openModal();
 		axios.get(`http://www.omdbapi.com/?i=${id}&plot=full`)
 		.then((response) => {
 			const data = response.data;
 			if (liked) {
-				data.liked = 'liked';
+				data.liked = true;
 			}
 			this.setState({
 				loading: !this.state.loading,
@@ -81,32 +81,44 @@ export default class App extends React.Component {
 		});
 	}
 
-	handleSelectedLiked(e) {
-		const el = e.currentTarget,
-					title = $(el).data('title');
+	handleSelectedLiked(title,liked) {
 		if (utils.storageCheck()) {
 			const favs = this.state.favorites,
-						liked = $(el).hasClass('liked');
+						selected = this.state.selected;
 			let newFavs;
-			console.log(liked);
 			if (liked) {
 				newFavs = utils.removeFavorite(title,favs);
+				selected.liked = false;
 			} else {
 				newFavs = utils.setFavorite(title,favs);
+				selected.liked = true;
 			}
 			window.localStorage.setItem('favorites',newFavs);
-			$(el).toggleClass('liked');
 			return this.setState({
+				selected: selected,
 				favorites: JSON.parse(newFavs)
 			});
 		}
+	}
+
+	handleFavoriteClicked(title) {
+		axios.get(`http://www.omdbapi.com/?t=${title}&plot=full`)
+		.then((response) => {
+			const data = response.data;
+			data.liked = true;
+			this.setState({
+				selectedSrc: data.Poster,
+				selected: data
+			});
+			utils.openModal();
+		});
 	}
 
 	render() {
 		return (
 			<div className={'wrapper'}>
 				<SearchTerms searchTerms={this.state.pastFive} />
-				<Favorites favorites={this.state.favorites} />
+				<Favorites favorites={this.state.favorites} onFavoriteClick={this.handleFavoriteClicked} />
 				<TitleBlock copy="Where are you sitting tonight?" title="MovieCouch" />
 				<SearchForm onSubmit={this.handleSearchSubmit} />
 				<SearchResults results={this.state.searchResults} onClick={this.handleResultClick} favorites={this.state.favorites} />
