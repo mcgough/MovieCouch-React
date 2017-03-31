@@ -6,6 +6,7 @@ import SearchForm from './components/SearchForm.jsx';
 import SearchResults from './components/SearchResults.jsx';
 import SelectedResult from './components/SelectedResult.jsx';
 import Modal from './components/common/Modal.jsx';
+import Sidebar from './components/sidebar/Sidebar.jsx';
 import SearchTerms from './components/sidebar/SearchTerms.jsx';
 import Favorites from './components/sidebar/Favorites.jsx';
 
@@ -117,8 +118,10 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className={'wrapper'}>
-				<SearchTerms searchTerms={this.state.pastFive} />
-				<Favorites favorites={this.state.favorites} onFavoriteClick={this.handleFavoriteClicked} />
+				<Sidebar>
+					<Favorites favorites={this.state.favorites} onFavoriteClick={this.handleFavoriteClicked} />
+					<SearchTerms searchTerms={this.state.pastFive} />
+				</Sidebar>
 				<TitleBlock copy="Where are you sitting tonight?" title="MovieCouch" />
 				<SearchForm onSubmit={this.handleSearchSubmit} />
 				<SearchResults results={this.state.searchResults} onClick={this.handleResultClick} favorites={this.state.favorites} />

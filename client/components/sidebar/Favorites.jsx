@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Favorites(props) {
-	if (props.favorites) {
+	if (props.favorites !== null && props.favorites.length > 0) {
 		let favorites = props.favorites.map((favorite,index) => {
 			return (
 				<div className={'favorite'} key={index}>
