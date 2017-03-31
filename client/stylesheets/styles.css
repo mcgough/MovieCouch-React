@@ -54,6 +54,7 @@ h1 {
 	right: 20px;
 	width: 30px;
 	height: 30px;
+	z-index: 10;
 }
 .close:hover {
 	cursor: pointer;
@@ -167,6 +168,9 @@ h1 {
 	margin: auto;
 }
 
+
+
+
 .hamburger	{
 	position: fixed;
 	cursor: pointer;
@@ -221,6 +225,38 @@ h1 {
 }
 .favorite-title:hover {
 	text-decoration: underline;
+}
+
+
+@media screen and (max-width: 668px) {
+	.hamburger {
+		border-right: none;
+		padding: 3%;
+	}
+	.sidebar-content {
+		border-right: none;
+		left: -45%;
+	}
+	.sidebar-container.open .hamburger {
+		padding-left: 85%;
+	}
+	.sidebar-container.open .sidebar-content {
+		width: 100%
+	}
+
+	.search-result {
+		width: 100%;
+	}
+	.search-result .result {
+		width: 80%;
+	}
+
+	.selected-movie {
+		width: 96%;
+	}
+	.selected-movie-details,.selected-movie-image {
+		width: 100%;
+	}
 }
 
 
