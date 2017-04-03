@@ -265,7 +265,7 @@ h1 {
 
 .notification {
 	position: absolute;
-	top: 5%;
+	bottom: 5%;
 	right: 5%;
 	color: #fff;
 	opacity: 0;
