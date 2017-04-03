@@ -6,4 +6,10 @@ import App from './App.jsx';
 
 const history = createHashHistory();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render (
+	<Router history={history}>
+		<Route path="/" component={App}/>
+	</Router>,
+	document.getElementById('root')
+)
+// ReactDOM.render(<App />, document.getElementById('root'));
