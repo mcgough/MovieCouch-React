@@ -9,6 +9,7 @@ import Modal from './components/common/Modal.jsx';
 import Sidebar from './components/sidebar/Sidebar.jsx';
 import SearchTerms from './components/sidebar/SearchTerms.jsx';
 import Favorites from './components/sidebar/Favorites.jsx';
+import Notification from './components/common/Notification.jsx';
 
 export default class App extends React.Component {
 
@@ -20,7 +21,11 @@ export default class App extends React.Component {
 			selectedSrc: '',
 			pastFive: null,
 			favorites: null,
-			loading: false
+			loading: false,
+			notification: {
+				status: '',
+				copy: ''
+			}
 		};
 		this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
 		this.handleResultClick = this.handleResultClick.bind(this);
@@ -85,19 +90,25 @@ export default class App extends React.Component {
 	handleSelectedLiked(title,liked) {
 		if (utils.storageCheck()) {
 			const favs = this.state.favorites,
-						selected = this.state.selected;
+						selected = this.state.selected,
+						notification = this.state.notification;
 			let newFavs;
 			if (liked) {
 				newFavs = utils.removeFavorite(title,favs);
 				selected.liked = false;
+				notification.status = 'danger';
+				notification.copy = `${title} IS NOT a FAVORITE`;
 			} else {
 				newFavs = utils.setFavorite(title,favs);
 				selected.liked = true;
+				notification.status = 'success';
+				notification.copy = `${title} IS now a FAVORITE`;
 			}
 			window.localStorage.setItem('favorites',newFavs);
 			return this.setState({
 				selected: selected,
-				favorites: JSON.parse(newFavs)
+				favorites: JSON.parse(newFavs),
+				notification: notification
 			});
 		}
 	}
@@ -122,12 +133,13 @@ export default class App extends React.Component {
 					<Favorites favorites={this.state.favorites} onFavoriteClick={this.handleFavoriteClicked} />
 					<SearchTerms searchTerms={this.state.pastFive} />
 				</Sidebar>
-				<TitleBlock copy="Where are you sitting tonight?" title="MovieCouch" />
+				<TitleBlock copy="" title="MovieCouch" />
 				<SearchForm onSubmit={this.handleSearchSubmit} />
 				<SearchResults results={this.state.searchResults} onClick={this.handleResultClick} favorites={this.state.favorites} />
 				<Modal>
 					<SelectedResult loading={this.state.loading} content={this.state.selected} src={this.state.selectedSrc} onHeartClick={this.handleSelectedLiked} favorites={this.state.favorites} />
 				</Modal>
+				<Notification alert={this.state.notification}/>
 			</div>
 		)
 	}
