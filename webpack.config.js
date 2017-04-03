@@ -19,5 +19,8 @@ module.exports = {
 			{test: /\.jsx$/, loader: 'babel-loader', exclude: '/node_modules/'}
 		]
 	},
-	plugins: [HtmlWebpackPluginConfig]
+	plugins: [HtmlWebpackPluginConfig],
+	resolveLoader: {
+	  root: path.join(__dirname, 'node_modules')
+	}
 };
