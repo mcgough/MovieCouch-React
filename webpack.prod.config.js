@@ -9,7 +9,7 @@ console.log('###########!!!!!!!!!############');
 module.exports = {
 	entry: './client/index.js',
 	output: {
-		path: '/client/dist',
+		path: './client/dist',
 		filename: 'index_bundles.js'
 	},
 	module: {
