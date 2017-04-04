@@ -5,7 +5,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 	template: './client/index.html',
 	inject: 'body'
 });
-
+console.log(path.resolve('dist'));
 module.exports = {
 	entry: './client/index.js',
 	output: {
