@@ -3,7 +3,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 	template: './client/index.html',
-	inject: 'body'
+	inject: true
 });
 
 module.exports = {
