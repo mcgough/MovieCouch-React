@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "prod": "NODE_ENV=production node server.js",
-    "postinstall": "webpack -p --progress"
+    "postinstall": "webpack -p --config webpack.config.js --progress"
   },
   "dependencies": {
     "axios": "^0.15.3",
