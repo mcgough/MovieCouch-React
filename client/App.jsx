@@ -74,7 +74,7 @@ export default class App extends React.Component {
 			loading: !this.state.loading
 		});
 		utils.openModal();
-		axios.get(`http://www.omdbapi.com/?i=${id}&plot=full`)
+		axios.get(`https://www.omdbapi.com/?i=${id}&plot=full`)
 		.then((response) => {
 			const data = response.data;
 			if (liked) {
@@ -114,7 +114,7 @@ export default class App extends React.Component {
 	}
 
 	handleFavoriteClicked(title) {
-		axios.get(`http://www.omdbapi.com/?t=${title}&plot=full`)
+		axios.get(`https://www.omdbapi.com/?t=${title}&plot=full`)
 		.then((response) => {
 			const data = response.data;
 			data.liked = true;
