@@ -49,7 +49,7 @@ export default class App extends React.Component {
 	handleSearchSubmit(e) {
 		e.preventDefault();
 		const searchTerm = document.querySelector('.search-form input').value;
-		axios.get(`http://www.omdbapi.com/?s=${searchTerm}&type=movie`)
+		axios.get(`https://www.omdbapi.com/?s=${searchTerm}&type=movie`)
 		.then((response) => {
 			const results = utils.filterResults(response.data.Search);
 			this.setState({
