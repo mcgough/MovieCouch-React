@@ -3,7 +3,7 @@ import React from 'react';
 function Loading() {
 	return (
 		<div className={'loading'}>
-			<img src={'../../client/resources/images/buffering.gif'} />
+			<img src={'https://i.stack.imgur.com/kOnzy.gif'} />
 		</div>
 	)
 }
