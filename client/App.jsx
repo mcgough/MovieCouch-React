@@ -62,7 +62,8 @@ export default class App extends React.Component {
 							newArr = utils.setSearchTerms(searchTerm, arr);
 				window.localStorage.setItem('pastFive', newArr);
 				this.setState({
-					pastFive: JSON.parse(newArr)
+					pastFive: JSON.parse(newArr),
+					modal: false
 				});
 			}
 		});

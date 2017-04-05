@@ -19,7 +19,6 @@ export default class Modal extends React.Component {
 
 	handleClick(e) {
 		const classNames = e.target.classList;
-		console.log(classNames[0]);
 		if (classNames[0] !== 'selected-movie-details' && classNames[0] !== undefined) {
 			this.setState({
 				open: false,

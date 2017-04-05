@@ -17,7 +17,10 @@ function Favorites(props) {
 		);
 	}
 	return (
-		null
+		<section className={'favorites'}>
+			<h3>Favorites</h3>
+			<p>- No Movies Favorited -</p>
+		</section>
 	);
 }
 

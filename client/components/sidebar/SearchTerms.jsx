@@ -16,8 +16,12 @@ function SearchTerms(props) {
 			</section>
 		)
 	}
-	return null;
-
+	return (
+		<section className={'search-terms'}>
+			<h3>Past 5 Searches</h3>
+			<p>- No Search History -</p>
+		</section>
+	)
 }
 
 export default (
