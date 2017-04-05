@@ -22,6 +22,7 @@ export default class App extends React.Component {
 			pastFive: null,
 			favorites: null,
 			loading: false,
+			modal: false,
 			notification: {
 				status: '',
 				copy: ''
@@ -73,7 +74,9 @@ export default class App extends React.Component {
 			selectedSrc: src,
 			loading: !this.state.loading
 		});
-		utils.openModal();
+		this.setState({
+			modal: true
+		});
 		axios.get(`https://www.omdbapi.com/?i=${id}&plot=full`)
 		.then((response) => {
 			const data = response.data;
@@ -120,9 +123,9 @@ export default class App extends React.Component {
 			data.liked = true;
 			this.setState({
 				selectedSrc: data.Poster,
-				selected: data
+				selected: data,
+				modal: true
 			});
-			utils.openModal();
 		});
 	}
 
@@ -136,7 +139,7 @@ export default class App extends React.Component {
 				<TitleBlock copy="" title="MovieCouch" />
 				<SearchForm onSubmit={this.handleSearchSubmit} />
 				<SearchResults results={this.state.searchResults} onClick={this.handleResultClick} favorites={this.state.favorites} />
-				<Modal>
+				<Modal open={this.state.modal}>
 					<SelectedResult loading={this.state.loading} content={this.state.selected} src={this.state.selectedSrc} onHeartClick={this.handleSelectedLiked} favorites={this.state.favorites} />
 				</Modal>
 				<Notification alert={this.state.notification}/>
