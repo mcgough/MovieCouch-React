@@ -21,17 +21,18 @@ export default class Modal extends React.Component {
 		const classNames = e.target.classList;
 		if (classNames[0] !== 'selected-movie-details' && classNames[0] !== undefined) {
 			this.setState({
-				open: false,
-				working: true
+				open: false
 			});
-
 		}
 	}
 
 	render() {
-		const openState = this.state.open;
+		const openState = this.state.open,
+					body = document.querySelector('body');
 		let open = '';
+		body.classList.remove('no-scroll');
 		if (openState) {
+			body.classList.add('no-scroll');
 			open = 'open';
 		}
 		return (

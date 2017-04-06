@@ -297,6 +297,7 @@ h1 {
 	input {
 		border: none;
 		border-bottom: 1px solid #000;
+		border-radius: 0;
 	}
 
 	.search-results {
@@ -340,7 +341,7 @@ h1 {
 		width: 100%;
 	}
 	.sidebar-container.open {
-		background: rgba(102,102,102,.98);
+		background: rgba(0,0,0,.95);
 	}
 	.sidebar-container.open .hamburger span {
 		background: #fff;
@@ -369,6 +370,18 @@ h1 {
 	}
 	.selected-movie-image {
 		display: none;
+	}
+
+	.modal-overlay {
+		background: rgba(0,0,0,.99);
+	}
+	.loading img {
+		position: relative;
+		left: 50%;
+		width: 50%;
+	}
+	.close {
+		left: 20px;
 	}
 
 }
