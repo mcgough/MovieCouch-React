@@ -65,6 +65,13 @@ export default class App extends React.Component {
 					pastFive: JSON.parse(newArr),
 					modal: false
 				});
+			} else {
+				this.setState({
+					notification: {
+						copy: `No movies were found with the title "${searchTerm}"`,
+						status: 'danger'
+					}
+				});
 			}
 		});
 	}
