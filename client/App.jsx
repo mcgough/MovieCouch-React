@@ -38,7 +38,7 @@ export default class App extends React.Component {
 		if (utils.storageCheck()) {
 			const pastFive = JSON.parse(window.localStorage.getItem('pastFive')),
 						favorites = JSON.parse(window.localStorage.getItem('favorites'));
-			setTimeout(() => {
+			return setTimeout(() => {
 				this.setState({
 					pastFive: pastFive,
 					favorites: favorites
@@ -49,30 +49,43 @@ export default class App extends React.Component {
 
 	handleSearchSubmit(e) {
 		e.preventDefault();
-		const searchTerm = document.querySelector('.search-form input').value;
-		axios.get(`https://www.omdbapi.com/?s=${searchTerm}&type=movie`)
+		const input = document.querySelector('.search-form input');
+		axios.get(`https://www.omdbapi.com/?s=${input.value}&type=movie`)
 		.then((response) => {
 			const results = utils.filterResults(response.data.Search);
-			this.setState({
-				searchResults: results,
-				selected: {}
-			});
-			if (utils.storageCheck() && results.length > 0) {
-				const arr = this.state.pastFive,
-							newArr = utils.setSearchTerms(searchTerm, arr);
-				window.localStorage.setItem('pastFive', newArr);
-				this.setState({
-					pastFive: JSON.parse(newArr),
-					modal: false
-				});
+			if (results.length > 0) {
+				if (utils.storageCheck()) {
+					const arr = this.state.pastFive,
+								newArr = utils.setSearchTerms(input.value, arr);
+					window.localStorage.setItem('pastFive', newArr);
+					this.setState({
+						searchResults: results,
+						selected: {},
+						selectedSrc: '',
+						pastFive: JSON.parse(newArr),
+						modal: false
+					});
+				} else {
+					this.setState({
+						searchResults: results,
+						selected: {},
+						selectedSrc: ''
+					});
+				}
+
 			} else {
 				this.setState({
 					notification: {
-						copy: `No movies were found with the title "${searchTerm}"`,
+						copy: `No movies were found with the title "${input.value}"`,
 						status: 'danger'
-					}
+					},
+					searchResults: [],
+					selected: {},
+					selectedSrc: '',
+					modal: false
 				});
 			}
+			return input.value = '';
 		});
 	}
 
@@ -91,7 +104,7 @@ export default class App extends React.Component {
 			if (liked) {
 				data.liked = true;
 			}
-			this.setState({
+			return this.setState({
 				loading: !this.state.loading,
 				selected: data
 			});
@@ -129,7 +142,7 @@ export default class App extends React.Component {
 		.then((response) => {
 			const data = response.data;
 			data.liked = true;
-			this.setState({
+			return this.setState({
 				selectedSrc: data.Poster,
 				selected: data,
 				modal: true

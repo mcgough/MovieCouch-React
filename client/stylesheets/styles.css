@@ -279,7 +279,7 @@ h1 {
 }
 
 .notification {
-	position: absolute;
+	position: fixed;
 	bottom: 5%;
 	right: 5%;
 	color: #fff;
