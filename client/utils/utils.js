@@ -1,4 +1,4 @@
-const utils = {
+export default {
 	checkContent: (str) => {
 		return str !== 'N/A' ? str : '';
 	},
@@ -48,10 +48,4 @@ const utils = {
 	storageCheck: () => {
 		return typeof(Storage) !== undefined;
 	}
-	// openModal: () => {
-	// 	$('body').addClass('no-scroll');
-	// 	$('.modal-overlay').addClass('open');
-	// }
 };
-
-export default utils;
