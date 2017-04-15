@@ -112,7 +112,7 @@ h1 {
 
 .search-result {
 	position: relative;
-	margin: 0 2vw 3vw 2vw
+	margin: 0 2vw 2vw 2vw
 }
 
 .search-result .result {
@@ -129,6 +129,9 @@ h1 {
 	position: relative;
 	width: 60%;
 	margin: auto;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
 }
 
 .heart {
@@ -150,6 +153,9 @@ h1 {
 	        animation: pulse .75s;
 }
 
+.selected-movie-image {
+	margin-right: 5%;
+}
 .selected-movie-details {
 	position: relative;
 	width: 50%;
@@ -214,7 +220,7 @@ h1 {
 	top: 10px;
 }
 .sidebar-content {
-	overflow-y: scroll;
+	overflow-y: auto;
 	position: absolute;
 	width: 80%;
 	height: 100vh;
@@ -261,7 +267,7 @@ h1 {
 	top: 0;
 }
 .favorite-title {
-	width: 70%;
+	width: 90%;
 	cursor: pointer;
 	-webkit-transition: all .35s;
 	transition: all .35s;
@@ -319,7 +325,9 @@ h1 {
 	.selected-movie {
 		width: 95%;
 	}
-
+	.selected-movie-image {
+		margin-right: 0;
+	}
 }
 
 @media screen and (max-width: 668px) {
