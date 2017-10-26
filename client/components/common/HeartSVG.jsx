@@ -1,6 +1,6 @@
 import React from 'react';
 
-function HeartSVG(props) {
+const HeartSVG = (props) => {
 	const movieData = { title: props.title, id: props.movieId };
 	let liked = '';
 	if (props.liked) {
