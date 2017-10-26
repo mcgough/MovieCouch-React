@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "node": "v7.5.0",
   "scripts": {
     "start": "webpack-dev-server",
     "prod": "NODE_ENV=production node server.js",
