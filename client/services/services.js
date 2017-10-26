@@ -1,4 +1,4 @@
-import apiKey from './../api/keys';
+import apiKey from '../../api/keys';
 
 const services = {
   searchQuery(searchTerm) {
