@@ -5,7 +5,7 @@ function Favorites(props) {
 		let favorites = props.favorites.map((favorite,index) => {
 			return (
 				<div className={'favorite'} key={index}>
-					<p onClick={() => { props.onFavoriteClick(favorite) }} className={'favorite-title'} data-title={favorite}>{favorite}</p>
+					<p onClick={() => { props.onFavoriteClick(favorite.id) }} className={'favorite-title'} data-title={favorite.title}>{favorite.title}</p>
 				</div>
 			)
 		});
