@@ -4,7 +4,7 @@ import HeartSVG from './common/HeartSVG.jsx';
 import utils from './../utils/utils.js';
 import _ from 'lodash';
 
-function SelectedResult(props) {
+const SelectedResult = (props) => {
 	const empty = _.isEmpty(props.content);
 	if (!empty) {
 		return (

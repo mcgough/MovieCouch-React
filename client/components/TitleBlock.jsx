@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TitleBlock(props) {
+const TitleBlock = (props) => {
 	return (
 		<div className={'title-block'} style={{textAlign: 'center'}}>
 			<h1>{ props.title }</h1>
