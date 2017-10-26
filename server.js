@@ -3,7 +3,7 @@ var app = express();
 
 app.use(express.static(__dirname + '/client'));
 
-app.get('/', function(res,res) {
+app.get('/', function(res, res) {
 	res.render('index.html');
 });
 
