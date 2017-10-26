@@ -11,7 +11,7 @@ import SearchTerms from './components/sidebar/SearchTerms.jsx';
 import Favorites from './components/sidebar/Favorites.jsx';
 import Notification from './components/common/Notification.jsx';
 import apiKey from './api/keys';
-import services from './api/services';
+import services from './services/services';
 
 export default class App extends React.Component {
 	constructor() {
