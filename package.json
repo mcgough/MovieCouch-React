@@ -10,7 +10,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "prod": "NODE_ENV=production node server.js",
-    "postinstall": "webpack --config ./webpack.prod.config.js --progress --colors"
+    "postinstall": "webpack -p --config webpack.prod.config.js --progress --colors"
   },
   "dependencies": {
     "axios": "^0.15.3",
