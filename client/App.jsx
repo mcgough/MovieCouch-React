@@ -137,12 +137,14 @@ export default class App extends React.Component {
 						onFavoriteClick={ this.handleFavoriteClicked } />
 					<SearchTerms searchTerms={ this.state.pastFive } />
 				</Sidebar>
-				<TitleBlock copy="" title="MovieCouch" />
-				<SearchForm onSubmit={ this.handleSearchSubmit } />
-				<SearchResults 
-					results={ this.state.searchResults }
-					onClick={ this.handleResultClick }
-					favorites={ this.state.favorites } />
+				<div>
+					<TitleBlock copy="" title="MovieCouch" />
+					<SearchForm onSubmit={ this.handleSearchSubmit } />
+					<SearchResults 
+						results={ this.state.searchResults }
+						onClick={ this.handleResultClick }
+						favorites={ this.state.favorites } />
+				</div>
 				<Modal open={ this.state.modal }>
 					<SelectedResult 
 						loading={ this.state.loading } 
