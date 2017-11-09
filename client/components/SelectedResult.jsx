@@ -8,7 +8,7 @@ const SelectedResult = (props) => {
 	const empty = _.isEmpty(props.content);
 	if (!empty) {
 		return (
-			<div className={ 'selected-movie flex align-center' } style={{ textAlign: 'center' }}>
+			<div className={ 'selected-movie flex align-center ' } style={{ textAlign: 'center', zIndex: '100' }}>
 				<div className={ 'selected-movie-image' }>
 					<img src={ `https://image.tmdb.org/t/p/w300${props.content.poster_path}` } />
 				</div>

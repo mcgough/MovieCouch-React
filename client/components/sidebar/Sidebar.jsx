@@ -11,31 +11,19 @@ export default class Sidebar extends React.Component {
 	}
 
 	handleHamburgerClick() {
-		const open = this.state.open;
-		if (open) {
-			return this.setState({
-				open: false
-			});
-		}
-		return this.setState({
-			open: true
-		});
+		return this.state.open ? this.setState({ open: false }) : this.setState({ open: true });
 	}
 
 	render() {
-		let open = '';
-		if (this.state.open) {
-			open = 'open';
-		}
 		return (
-			<div className={`sidebar-container ${open}`}>
-				<div className={'hamburger'} onClick={this.handleHamburgerClick}>
+			<div className={`sidebar-container ${this.state.open ? 'open' : ''}`}>
+				<div className={'hamburger'} onClick={ this.handleHamburgerClick }>
 					<span className={'first'}>&nbsp;</span>
 					<span className={'middle'}>&nbsp;</span>
 					<span className={'last'}>&nbsp;</span>
 				</div>
 				<div className={'sidebar-content'}>
-					{this.props.children}
+					{ this.props.children }
 				</div>
 			</div>
 		)

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import _ from './utils/utils.js';
+import _ from './utils/utils';
 import TitleBlock from './components/TitleBlock.jsx';
 import SearchForm from './components/SearchForm.jsx';
 import SearchResults from './components/SearchResults.jsx';
@@ -30,6 +30,8 @@ export default class App extends React.Component {
 		this.handleResultClick = this.handleResultClick.bind(this);
 		this.handleSelectedLiked = this.handleSelectedLiked.bind(this);
 		this.handleFavoriteClicked = this.handleFavoriteClicked.bind(this);
+		this.handleModalClose = this.handleModalClose.bind(this);
+		this.createImagePromise = this.createImagePromise.bind(this);
 	}
 
 	componentWillMount() {
@@ -42,21 +44,33 @@ export default class App extends React.Component {
 		}
 	}
 
+	createImagePromise(src) {
+		return new Promise((resolve, reject) => {
+			let image = new Image();
+			image.src = `https://image.tmdb.org/t/p/w300${src}`;
+			image.onload = (() => { resolve(image); });
+		});
+	}
+
 	handleSearchSubmit(searchTerm) {
 		axios.get(services.searchQuery(searchTerm))
 			.then((response) => {
-				const searchResults = response.data.results.filter( movie => movie.poster_path );
+				const searchResults = response.data.results.filter(movie => movie.poster_path);
 				if (searchResults.length) {
+					const loadedImages = searchResults.map(result => this.createImagePromise(result.poster_path));
 					let { pastFive } = this.state;
 					pastFive = _.setSearchTerms(searchTerm, pastFive);
 					localStorage.setItem('pastFive', JSON.stringify(pastFive));
-					this.setState(Object.assign({}, this.state, {
-						searchResults,
-						pastFive,
-						selected: {},
-						selectedSrc: '',
-						modal: false,
-					}));
+					Promise.all(loadedImages)
+						.then(() => {
+							this.setState(Object.assign({}, this.state, {
+								searchResults,
+								pastFive,
+								selected: {},
+								selectedSrc: '',
+								modal: false,
+							}));
+						});
 				} else {
 					this.setState({
 						notification: {
@@ -69,7 +83,7 @@ export default class App extends React.Component {
 						modal: false
 					});
 				}
-			});
+		});
 	}
 
 	handleResultClick(id, src, liked) {
@@ -82,12 +96,8 @@ export default class App extends React.Component {
 		axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
 			.then((response) => {
 				const { data } = response;
-				console.log(data);
 				data.liked = liked ? true : false;
-				return this.setState({
-					loading: !this.state.loading,
-					selected: data
-				});
+				return this.setState({ loading: !this.state.loading, selected: data });
 			});
 	}
 
@@ -128,6 +138,10 @@ export default class App extends React.Component {
 		});
 	}
 
+	handleModalClose() {
+		this.setState(Object.assign({}, this.state, { modal: false, selected: null }));
+	}
+
 	render() {
 		return (
 			<div className={'wrapper'}>
@@ -137,15 +151,19 @@ export default class App extends React.Component {
 						onFavoriteClick={ this.handleFavoriteClicked } />
 					<SearchTerms searchTerms={ this.state.pastFive } />
 				</Sidebar>
-				<div>
+				<main>
 					<TitleBlock copy="" title="MovieCouch" />
 					<SearchForm onSubmit={ this.handleSearchSubmit } />
-					<SearchResults 
+					<SearchResults
 						results={ this.state.searchResults }
+						images={ this.state.loadedImages }
 						onClick={ this.handleResultClick }
 						favorites={ this.state.favorites } />
-				</div>
-				<Modal open={ this.state.modal }>
+				</main>
+				<Modal
+					open={ this.state.modal }
+					onClose={ this.handleModalClose }
+					background={ this.state.selected.backdrop_path }>
 					<SelectedResult 
 						loading={ this.state.loading } 
 						content={ this.state.selected } 

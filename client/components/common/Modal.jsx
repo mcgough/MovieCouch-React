@@ -1,48 +1,66 @@
 import React from 'react';
-import utils from './../../utils/utils.js';
+import utils from './../../utils/utils';
 
 export default class Modal extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			open: props.open
+			open: props.open,
+			background: null,
 		};
 		this.handleClick = this.handleClick.bind(this);
 	}
 
 	componentWillReceiveProps(props) {
-		this.setState({
-			open: props.open
-		});
+		const { open, background } = props;
+		const backgroundImage = new Image();
+		if (background !== undefined) {
+			backgroundImage.src = `https://image.tmdb.org/t/p/w1000${background}`;
+			return backgroundImage.onload = (() => {
+				this.setState({ open, background: backgroundImage.src });
+			});
+		}
+		return this.setState({ background: null});
+
 	}
 
 	handleClick(e) {
 		const classNames = e.target.classList;
-		if (classNames[0] !== 'selected-movie-details' && classNames[0] !== undefined) {
-			this.setState({
-				open: false
-			});
-		}
+		const overlayClick = classNames[0] !== 'selected-movie-details' && classNames[0] !== undefined;
+		return overlayClick ?	this.setState({ open: false, background: null }) : null;
 	}
 
 	render() {
-		const openState = this.state.open,
-					body = document.querySelector('body');
+		const openState = this.state.open;
+		const	body = document.querySelector('body');
 		let open = '';
 		body.classList.remove('no-scroll');
 		if (openState) {
 			body.classList.add('no-scroll');
 			open = 'open';
 		}
-		return (
-			<div className={`modal-overlay flex align-center ${open}`} onClick={this.handleClick}>
-				<div className={'close'} onClick={this.handleClick}>
-					<span className={'first'}>&nbsp;</span>
-					<span className={'second'}>&nbsp;</span>
+		if (this.state.background) {
+			return (
+				<div>
+					<div
+						className={`modal-overlay flex align-center ${open}`}
+						style={{ 
+							backgroundImage: `url(${this.state.background})`,
+							backgroundRepeat: 'no-repeat',
+							backgroundPosition: '50% 50%',
+							backgroundSize: 'cover',
+						}}
+						onClick={ this.props.onClose }>
+						<div className={'close'} onClick={ this.props.onClose }>
+							<span className={'first'}>&nbsp;</span>
+							<span className={'second'}>&nbsp;</span>
+						</div>
+					</div>
+					{this.props.children}
 				</div>
-				{this.props.children}
-			</div>
-		)
+			)
+		}
+		return null;
 	}
 }

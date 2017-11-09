@@ -113,15 +113,16 @@ button:focus {
 }
 
 .search-results {
-	margin: auto;
-	max-width: 72%;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-column-gap: 1.5em;
+	grid-row-gap: 1.5em;
 	justify-content: center;
 
 }
 
 .search-result {
 	position: relative;
-	margin: 0 1vw 2vw 1vw
 }
 
 .search-result .result {
