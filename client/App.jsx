@@ -24,6 +24,7 @@ export default class App extends React.Component {
 			favorites: [],
 			loading: false,
 			modal: false,
+			sidebar: false,
 			notification: { status: '', copy: '' },
 		};
 		this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
@@ -92,12 +93,11 @@ export default class App extends React.Component {
 			selectedSrc: src,
 			loading: !this.state.loading
 		});
-		this.setState({ modal: true });
 		axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
 			.then((response) => {
 				const { data } = response;
 				data.liked = liked ? true : false;
-				return this.setState({ loading: !this.state.loading, selected: data });
+				return this.setState({ loading: !this.state.loading, selected: data, modal: true });
 			});
 	}
 
@@ -139,13 +139,13 @@ export default class App extends React.Component {
 	}
 
 	handleModalClose() {
-		this.setState(Object.assign({}, this.state, { modal: false, selected: null }));
+		return this.setState(Object.assign({}, this.state, { modal: false, selected: {} }));
 	}
 
 	render() {
 		return (
 			<div className={'wrapper'}>
-				<Sidebar>
+				<Sidebar open={ this.state.sidebar }>
 					<Favorites
 						favorites={ this.state.favorites }
 						onFavoriteClick={ this.handleFavoriteClicked } />

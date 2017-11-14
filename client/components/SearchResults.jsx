@@ -18,7 +18,7 @@ const SearchResults = (props) => {
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat'						
 			};
-			if (favoriteTitles.indexOf(result.title) > -1) {
+			if (favoriteTitles.includes(result.title)) {
 				return (
 					<div
 						className={'search-result liked'}

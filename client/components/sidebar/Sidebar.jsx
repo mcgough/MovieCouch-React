@@ -5,7 +5,7 @@ export default class Sidebar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			open: false
+			open: props.open,
 		};
 		this.handleHamburgerClick = this.handleHamburgerClick.bind(this);
 	}

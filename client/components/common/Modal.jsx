@@ -11,7 +11,7 @@ export default class Modal extends React.Component {
 		};
 		this.handleClick = this.handleClick.bind(this);
 	}
-
+	
 	componentWillReceiveProps(props) {
 		const { open, background } = props;
 		const backgroundImage = new Image();
@@ -21,30 +21,28 @@ export default class Modal extends React.Component {
 				this.setState({ open, background: backgroundImage.src });
 			});
 		}
-		return this.setState({ background: null});
-
+		return this.setState({ open, background: null });
 	}
 
 	handleClick(e) {
-		const classNames = e.target.classList;
-		const overlayClick = classNames[0] !== 'selected-movie-details' && classNames[0] !== undefined;
+		const [className] = e.target.classList;
+		const overlayClick = className !== 'selected-movie-details' && className !== undefined;
 		return overlayClick ?	this.setState({ open: false, background: null }) : null;
 	}
 
 	render() {
-		const openState = this.state.open;
 		const	body = document.querySelector('body');
 		let open = '';
 		body.classList.remove('no-scroll');
-		if (openState) {
+		if (this.state.open) {
 			body.classList.add('no-scroll');
 			open = 'open';
 		}
 		if (this.state.background) {
 			return (
-				<div>
+				<div className={'modal flex align-center'}>
 					<div
-						className={`modal-overlay flex align-center ${open}`}
+						className={`modal-overlay ${open}`}
 						style={{ 
 							backgroundImage: `url(${this.state.background})`,
 							backgroundRepeat: 'no-repeat',

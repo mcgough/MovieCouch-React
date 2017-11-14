@@ -7,6 +7,7 @@ import _ from 'lodash';
 const SelectedResult = (props) => {
 	const empty = _.isEmpty(props.content);
 	if (!empty) {
+		const genres = props.content.genres.map(genre => <li key={genre.id}>{ genre.name }</li>);
 		return (
 			<div className={ 'selected-movie flex align-center ' } style={{ textAlign: 'center', zIndex: '100' }}>
 				<div className={ 'selected-movie-image' }>
@@ -20,7 +21,7 @@ const SelectedResult = (props) => {
 						onHeartClick={ props.onHeartClick } />
 					<h3>{ props.content.title }</h3>
 					<p>{ utils.checkContent(props.content.release_date) }</p>
-					<p>{ utils.checkContent(props.content.Genre) }</p>
+					<ul>{ genres }</ul>
 					<p>{ utils.checkContent(props.content.Awards) }</p>
 					<p>{ utils.checkContent(props.content.Actors) }</p>
 					<p>{ utils.checkContent(props.content.overview) }</p>

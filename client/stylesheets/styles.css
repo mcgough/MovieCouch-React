@@ -8,6 +8,11 @@ textarea:focus,
 button:focus {
     outline: none;
 }
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
 
 .no-scroll {
 	overflow: hidden;
@@ -36,7 +41,14 @@ button:focus {
 	        justify-content: flex-start;
 }
 
-
+.modal {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	z-index: 15;
+}
 .modal-overlay {
 	position: fixed;
 	top: 0;
@@ -61,7 +73,7 @@ button:focus {
 	right: 20px;
 	width: 30px;
 	height: 30px;
-	z-index: 10;
+	z-index: 15;
 }
 .close:hover {
 	cursor: pointer;
