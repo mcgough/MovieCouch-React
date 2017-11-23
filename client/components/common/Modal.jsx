@@ -8,10 +8,11 @@ export default class Modal extends React.Component {
 		this.state = {
 			open: props.open,
 			background: null,
+			backgroundImageYAxis: 50,
 		};
 		this.handleClick = this.handleClick.bind(this);
 	}
-	
+
 	componentWillReceiveProps(props) {
 		const { open, background } = props;
 		const backgroundImage = new Image();
@@ -46,7 +47,7 @@ export default class Modal extends React.Component {
 						style={{ 
 							backgroundImage: `url(${this.state.background})`,
 							backgroundRepeat: 'no-repeat',
-							backgroundPosition: '50% 50%',
+							backgroundPosition: `50% ${this.state.backgroundImageYAxis}%`,
 							backgroundSize: 'cover',
 						}}
 						onClick={ this.props.onClose }>
