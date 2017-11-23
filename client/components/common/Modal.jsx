@@ -2,7 +2,6 @@ import React from 'react';
 import utils from './../../utils/utils';
 
 export default class Modal extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -12,7 +11,7 @@ export default class Modal extends React.Component {
 		};
 		this.handleClick = this.handleClick.bind(this);
 	}
-
+	
 	componentWillReceiveProps(props) {
 		const { open, background } = props;
 		const backgroundImage = new Image();
@@ -24,7 +23,6 @@ export default class Modal extends React.Component {
 		}
 		return this.setState({ open, background: null });
 	}
-
 	handleClick(e) {
 		const [className] = e.target.classList;
 		const overlayClick = className !== 'selected-movie-details' && className !== undefined;

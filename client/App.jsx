@@ -52,55 +52,45 @@ export default class App extends React.Component {
 			image.onload = (() => { resolve(image); });
 		});
 	}
-
-	handleSearchSubmit(searchTerm) {
-		axios.get(services.searchQuery(searchTerm))
-			.then((response) => {
-				const searchResults = response.data.results.filter(movie => movie.poster_path);
-				if (searchResults.length) {
-					const loadedImages = searchResults.map(result => this.createImagePromise(result.poster_path));
-					let { pastFive } = this.state;
-					pastFive = _.setSearchTerms(searchTerm, pastFive);
-					localStorage.setItem('pastFive', JSON.stringify(pastFive));
-					Promise.all(loadedImages)
-						.then(() => {
-							this.setState(Object.assign({}, this.state, {
-								searchResults,
-								pastFive,
-								selected: {},
-								selectedSrc: '',
-								modal: false,
-							}));
-						});
-				} else {
-					this.setState({
-						notification: {
-							copy: `No movies were found with the title "${searchTerm}"`,
-							status: 'danger'
-						},
-						searchResults: [],
-						selected: {},
-						selectedSrc: '',
-						modal: false
-					});
-				}
+	async handleSearchSubmit(searchTerm) {
+		const response = await axios.get(services.searchQuery(searchTerm));
+		const searchResults = response.data.results.filter(movie => movie.poster_path);
+		if (searchResults.length) {
+			const loadedImages = searchResults.map(result => this.createImagePromise(result.poster_path));
+			let { pastFive } = this.state;
+			pastFive = _.setSearchTerms(searchTerm, pastFive);
+			localStorage.setItem('pastFive', JSON.stringify(pastFive));
+			await Promise.all(loadedImages);
+			return this.setState(Object.assign({}, this.state, {
+				searchResults,
+				pastFive,
+				selected: {},
+				selectedSrc: '',
+				modal: false,
+			}));
+		}
+		return this.setState({
+			notification: {
+				copy: `No movies were found with the title "${searchTerm}"`,
+				status: 'danger'
+			},
+			searchResults: [],
+			selected: {},
+			selectedSrc: '',
+			modal: false
 		});
 	}
-
-	handleResultClick(id, src, liked) {
+	async handleResultClick(id, src, liked) {
 		this.setState({
 			selected: {},
 			selectedSrc: src,
 			loading: !this.state.loading
 		});
-		axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
-			.then((response) => {
-				const { data } = response;
-				data.liked = liked ? true : false;
-				return this.setState({ loading: !this.state.loading, selected: data, modal: true });
-			});
+		const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`);
+		const { data } = response;
+		data.liked = liked ? true : false;
+		return this.setState({ loading: !this.state.loading, selected: data, modal: true });
 	}
-
 	handleSelectedLiked(movieData, liked) {
 		if (_.storageCheck()) {
 			let selected = Object.assign({}, this.state.selected);
@@ -125,19 +115,15 @@ export default class App extends React.Component {
 			});
 		}
 	}
-
-	handleFavoriteClicked(id) {
-		axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
-		.then((response) => {
-			const { data } = response;
-			return this.setState({
-				selectedSrc: data.poster_path,
-				selected: Object.assign({}, data, { liked: true }),
-				modal: true
-			});
+	async handleFavoriteClicked(id) {
+		const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`);
+		const { data } = response;
+		return this.setState({
+			selectedSrc: data.poster_path,
+			selected: Object.assign({}, data, { liked: true }),
+			modal: true
 		});
 	}
-
 	handleModalClose() {
 		return this.setState(Object.assign({}, this.state, { modal: false, selected: {} }));
 	}
